@@ -3,6 +3,8 @@
 Created on Sat Jul 24 08:51:16 2021
 
 @author: mahad
+
+NOTE: - ABANDON
 """
 # VARIABLES/CONSTANT
 COL_ROW_NUM = 4  
@@ -45,6 +47,25 @@ def fillMatric(colRow):
         MATRIC.append(list(MATRIC_Col))
     print(MATRIC)
           
+def getNewCoordinate(MATRIC, colChoose):
+    
+    rowReg = None 
+    global player           
+    #print("GET COOR", MATRIC, colChoose, player)       
+    
+    for col in range(len(MATRIC[colChoose])-1, -1, -1):
+        #print(MATRIC[colChoose][col])
+        if(not MATRIC[colChoose][col]): #if none
+            rowReg = "player" + str(player)            
+            break
+                
+    if rowReg:
+        MATRIC[colChoose][col] = rowReg
+        #print("\nRETURN GET COOR", MATRIC, colChoose, col)
+        return [colChoose, col] # if has changes
+    
+    return None #if no changes to MATRIC
+    
 
 """
 [ r1     r2     r3
@@ -77,6 +98,7 @@ def inGame():
             # if has no val -> assign
             # if has -> repeat player
             
+            '''
             rowReg = None            
            
             for col in range(len(MATRIC[colChoose])-1, -1, -1):
@@ -88,9 +110,57 @@ def inGame():
                 
             if rowReg:
                 MATRIC[colChoose][col] = rowReg
+            '''  
+            newCoordinate = getNewCoordinate(MATRIC, colChoose)
+            print("GET COOR", newCoordinate)
+            if newCoordinate: 
+                #check winner
+                getWinner(newCoordinate)
+                
+                player = int(not player) # if has new coor -> change player
+                
+                
+def getBgStCol(colChoose):
+    diff = (COL_ROW_NUM-1)-(colChoose+3)
+    pt = 0
+    if(diff>)
+    
+    return pt
             
-            #check winner
             
+def getWinner(coordinate):
+    global MATRIC
+    global player
+    # 0row = coor[n,0] 
+    # 0col = coor[0,n]
+    col = coordinate[0]
+    row = coordinate[1]
+    smCol = (coordinate[0]-3) if ((coordinate[0]-3) >= 0) else 0 #if >0, sm = val, else = 0
+    smRow = (coordinate[1]-3) if ((coordinate[1]-3) >= 0) else 0 #if >0, sm = val, else = 0
+    bgStCol = (coordinate[0]+3) if ((coordinate[0]+3) >= 0) else 0 #if >0, sm = val, else = 0
+    
+    print(col, smCol, row, smRow)
+    
+    textWin = None
+    
+    #check horizontal
+    hor1= (MATRIC[col][smRow] == MATRIC[col][smRow+1] and MATRIC[col][smRow+1] == MATRIC[col][smRow+2] and MATRIC[col][smRow+2] == MATRIC[col][smRow+3])
+    hor2= (MATRIC[col][smRow+1] == MATRIC[col][smRow+2] and MATRIC[col][smRow+2] == MATRIC[col][smRow+3] and MATRIC[col][smRow+3] == MATRIC[col][smRow+4])
+    hor3= (MATRIC[col][smRow+2] == MATRIC[col][smRow+3] and MATRIC[col][smRow+3] == MATRIC[col][smRow+4] and MATRIC[col][smRow+4] == MATRIC[col][smRow+5])
+    hor4= (MATRIC[col][smRow+3] == MATRIC[col][smRow+4] and MATRIC[col][smRow+4] == MATRIC[col][smRow+5] and MATRIC[col][smRow+5] == MATRIC[col][smRow+6])
+    
+    if hor1 or hor2 or hor3 or hor4:
+        textWin = "player: ", player, "win"
+    #check vertical
+    #check decline
+    #check incline
+    
+    if(not textWin):
+        textWin = "continue... "
+    
+    print(textWin)
+    
+    
 
 # TEST/SYSTEM
 board(COL_ROW_NUM)
